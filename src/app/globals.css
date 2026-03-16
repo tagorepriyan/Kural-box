@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-tamil: var(--font-noto-tamil), serif;
+}
+
+:root {
+  /* Default Theme */
+  --background: #fdfbf7;
+  --foreground: #2d3748;
+  --primary: #c05621;
+  --primary-foreground: #ffffff;
+  --secondary: #ecc94b;
+  --secondary-foreground: #744210;
+  --accent: #ed8936;
+  --accent-foreground: #ffffff;
+  --muted: #f7fafc;
+  --muted-foreground: #718096;
+  --border: #e2e8f0;
+  --card: #ffffff;
+  --card-foreground: #2d3748;
+}
+
+/* Palm Leaf Manuscript Theme */
+[data-theme="palm-leaf"] {
+  --background: #d4c39c; /* yellowish-brown dried palm leaf */
+  --foreground: #4a3e2a; /* dark brown ink */
+  --primary: #8c6a46; /* darker wood */
+  --primary-foreground: #f4e8c1;
+  --secondary: #ebdcb1;
+  --secondary-foreground: #5a4b35;
+  --accent: #5e4a36;
+  --accent-foreground: #ebdcb1;
+  --muted: #dfd0ab;
+  --muted-foreground: #6b5c46;
+  --border: #caba93;
+  --card: #dfceaa;
+  --card-foreground: #4a3e2a;
+}
+
+/* Ancient Book Theme */
+[data-theme="ancient-book"] {
+  --background: #eae0c8;
+  --foreground: #3b352e;
+  --primary: #8b2626; /* classical red ink */
+  --primary-foreground: #eae0c8;
+  --secondary: #dcd0b8;
+  --secondary-foreground: #4e483e;
+  --accent: #78351c;
+  --accent-foreground: #eae0c8;
+  --muted: #dfd5be;
+  --muted-foreground: #6e6456;
+  --border: #c8bba0;
+  --card: #e4d8c0;
+  --card-foreground: #3b352e;
+}
+
+/* Temple Stone Engraving Theme */
+[data-theme="temple-stone"] {
+  --background: #8b8f94; /* granite stone */
+  --foreground: #e2e8f0; /* etched white/chalk */
+  --primary: #2d3748; /* deep indentations */
+  --primary-foreground: #e2e8f0;
+  --secondary: #718096;
+  --secondary-foreground: #e2e8f0;
+  --accent: #a0aec0;
+  --accent-foreground: #1a202c;
+  --muted: #a0aec0;
+  --muted-foreground: #2d3748;
+  --border: #718096;
+  --card: #989da3;
+  --card-foreground: #e2e8f0;
+}
+
+/* Wooden Kural Box Theme */
+[data-theme="wooden-box"] {
+  --background: #5c3a21; /* rich dark wood */
+  --foreground: #e8dcc8; /* light wood engrave */
+  --primary: #8a5a3a; /* polished lighter wood */
+  --primary-foreground: #e8dcc8;
+  --secondary: #4a2c16;
+  --secondary-foreground: #d2bba0;
+  --accent: #b37e5c;
+  --accent-foreground: #4a2c16;
+  --muted: #6b472e;
+  --muted-foreground: #c2aa8f;
+  --border: #4a2c16;
+  --card: #684226;
+  --card-foreground: #e8dcc8;
+}
+
+/* Night Manuscript Theme */
+[data-theme="night-manuscript"] {
+  --background: #121212;
+  --foreground: #cbbba5; /* dimmed parchment text */
+  --primary: #8c6a46;
+  --primary-foreground: #121212;
+  --secondary: #262626;
+  --secondary-foreground: #a39580;
+  --accent: #a17852;
+  --accent-foreground: #121212;
+  --muted: #1e1e1e;
+  --muted-foreground: #857a66;
+  --border: #333333;
+  --card: #1a1a1a;
+  --card-foreground: #cbbba5;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #121212;
+    --foreground: #cbbba5;
+    --primary: #8c6a46;
+    --primary-foreground: #121212;
+    --secondary: #262626;
+    --secondary-foreground: #a39580;
+    --accent: #a17852;
+    --accent-foreground: #121212;
+    --muted: #1e1e1e;
+    --muted-foreground: #857a66;
+    --border: #333333;
+    --card: #1a1a1a;
+    --card-foreground: #cbbba5;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.font-tamil {
+  font-family: var(--font-tamil);
+}
