@@ -5,16 +5,10 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 export function KuralDial() {
-  const [targetNumber, setTargetNumber] = useState<string>("0000");
+  const [targetNumber, setTargetNumber] = useState<string>("0001");
   const [isSpinning, setIsSpinning] = useState(false);
   const [leverPulled, setLeverPulled] = useState(false);
   const router = useRouter();
-
-  const handleDragEnd = (_: any, info: any) => {
-    if (info.offset.y > 40 && !isSpinning) {
-      spin();
-    }
-  };
 
   const spin = () => {
     if (isSpinning) return;
@@ -28,10 +22,11 @@ export function KuralDial() {
     const newTarget = randomKural.toString().padStart(4, "0");
     setTargetNumber(newTarget);
 
+    // After animation (approx 3.2s max), navigate
     setTimeout(() => {
+      setIsSpinning(false); // Snap back to standard index invisibly
       router.push(`/kural/${randomKural}`);
-      setTimeout(() => setIsSpinning(false), 500); 
-    }, 3200);
+    }, 3500);
   };
 
   return (
@@ -60,7 +55,6 @@ export function KuralDial() {
                 <DigitColumn 
                   key={i} 
                   targetDigit={digit}
-                  delay={i * 0.3} 
                   colIndex={i}
                   isSpinning={isSpinning}
                 />
@@ -119,66 +113,50 @@ function Screw({ className }: { className?: string }) {
 
 function DigitColumn({ 
   targetDigit, 
-  delay, 
   colIndex,
   isSpinning
 }: { 
   targetDigit: string, 
-  delay: number, 
   colIndex: number,
   isSpinning: boolean
 }) {
   const target = parseInt(targetDigit);
   
-  // Constrain the thousands place to only spin between 0 and 1
-  const sequence = colIndex === 0 ? [0, 1] : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // Create a slot machine reel effect
+  const baseSequence = colIndex === 0 ? [0, 1] : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const loops = 3 + colIndex * 2; // Further columns spin longer
+  const sequence = Array.from({ length: loops }, () => baseSequence).flat().concat(baseSequence);
+  
+  const targetIndex = loops * baseSequence.length + baseSequence.indexOf(target);
 
   return (
     <div 
-      className="relative w-14 sm:w-16 h-[100px] sm:h-[120px] bg-stone-200 dark:bg-stone-300 rounded-[2px] overflow-hidden flex items-center justify-center"
+      className="relative w-14 sm:w-16 h-[100px] sm:h-[120px] bg-stone-200 dark:bg-stone-300 rounded-[2px] overflow-hidden"
       style={{
         boxShadow: "inset 1px 0 3px rgba(0,0,0,0.6), inset -1px 0 3px rgba(0,0,0,0.6), inset 0 25px 20px -10px rgba(0,0,0,0.8), inset 0 -25px 20px -10px rgba(0,0,0,0.8)"
       }}
     >
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stucco.png')] opacity-20 pointer-events-none mix-blend-multiply z-10"></div>
 
-      {isSpinning ? (
-        // The High-Speed Infinite Spin Phase (Visual trickery)
+      <div className="absolute top-[50%] w-full" style={{ marginTop: "-40px" }}>
         <motion.div
-          className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center w-full mt-[40px]" 
+          className="w-full flex flex-col items-center"
+          initial={{ y: -(target * 80) }}
           animate={{ 
-            y: [0, -(sequence.length * 80)] 
+            y: isSpinning ? -(targetIndex * 80) : -(target * 80)
           }}
           transition={{
-            duration: 0.15 + (colIndex * 0.02), // Very fast looping
-            ease: "linear",
-            repeat: Infinity,
-            repeatType: "loop"
-          }}
-          style={{ filter: "blur(0.5px)" }}
-        >
-          {/* Render the core array twice to allow smooth looping */}
-          {[...sequence, ...sequence].map((num, i) => (
-             <div key={i} className="flex items-center justify-center w-full min-h-[80px] h-[80px] text-[2.75rem] sm:text-6xl font-black font-mono text-zinc-900 tracking-tighter mix-blend-multiply opacity-90">
-               {num}
-             </div>
-          ))}
-        </motion.div>
-      ) : (
-        // Resting Phase (Pulls down exactly to the target digit position using a simple layout offset)
-        <div
-          className="absolute top-1/2 -translate-y-1/2 flex flex-col items-center w-full mt-[40px] transition-transform duration-700 ease-[cubic-bezier(0.15,0.85,0.35,1.15)]"
-          style={{
-            transform: `translateY(${-(target * 80)}px)`
+              duration: isSpinning ? 1.5 + colIndex * 0.4 : 0, 
+              ease: [0.15, 0.85, 0.25, 1] // Custom ease-out for realistic stopping friction
           }}
         >
           {sequence.map((num, i) => (
-            <div key={i} className="flex items-center justify-center w-full min-h-[80px] h-[80px] text-[2.75rem] sm:text-6xl font-black font-mono text-zinc-900 tracking-tighter mix-blend-multiply opacity-90">
+            <div key={i} className="flex items-center justify-center w-full h-[80px] text-[2.75rem] sm:text-6xl font-black font-mono text-zinc-900 tracking-tighter mix-blend-multiply opacity-90">
               {num}
             </div>
           ))}
-        </div>
-      )}
+        </motion.div>
+      </div>
     </div>
   );
 }
