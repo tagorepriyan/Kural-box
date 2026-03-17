@@ -35,6 +35,24 @@
   --card-foreground: #2d3748;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #121212;
+    --foreground: #cbbba5;
+    --primary: #8c6a46;
+    --primary-foreground: #121212;
+    --secondary: #262626;
+    --secondary-foreground: #a39580;
+    --accent: #a17852;
+    --accent-foreground: #121212;
+    --muted: #1e1e1e;
+    --muted-foreground: #857a66;
+    --border: #333333;
+    --card: #1a1a1a;
+    --card-foreground: #cbbba5;
+  }
+}
+
 /* Palm Leaf Manuscript Theme */
 [data-theme="palm-leaf"] {
   --background: #d4c39c; /* yellowish-brown dried palm leaf */
@@ -118,24 +136,6 @@
   --border: #333333;
   --card: #1a1a1a;
   --card-foreground: #cbbba5;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #121212;
-    --foreground: #cbbba5;
-    --primary: #8c6a46;
-    --primary-foreground: #121212;
-    --secondary: #262626;
-    --secondary-foreground: #a39580;
-    --accent: #a17852;
-    --accent-foreground: #121212;
-    --muted: #1e1e1e;
-    --muted-foreground: #857a66;
-    --border: #333333;
-    --card: #1a1a1a;
-    --card-foreground: #cbbba5;
-  }
 }
 
 body {

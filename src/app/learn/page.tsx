@@ -1,18 +1,28 @@
-"use client";
-
 import { Brain, Trophy, Gamepad2, Layers } from "lucide-react";
+import { QuizMode } from "@/components/learn/QuizMode";
+import { MascotGuide } from "@/components/shared/MascotGuide";
 
 export default function LearnPage() {
   return (
-    <div className="max-w-3xl mx-auto py-8 px-4 space-y-8">
-      <div className="text-center mb-12">
+    <div className="max-w-4xl mx-auto py-8 px-4 space-y-12">
+      <MascotGuide 
+        message="Welcome to the Learning Center! Try taking a quiz to test your memory of the Thirukkural."
+        position="bottom-right"
+        autoHideDuration={8000}
+      />
+      <div className="text-center mb-8">
         <h1 className="text-3xl font-extrabold text-foreground mb-4">Learning Center</h1>
         <p className="text-muted-foreground w-full max-w-lg mx-auto">
           Test your knowledge, memorize Kurals, and compete on the global leaderboard.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {/* Active Interactive Section */}
+      <section>
+        <QuizMode />
+      </section>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-8 border-t border-border">
         
         {/* Daily Challenge */}
         <div className="group bg-gradient-to-br from-primary/20 to-accent/10 border border-primary/20 rounded-3xl p-6 sm:p-8 hover:shadow-lg transition-all cursor-pointer relative overflow-hidden text-center sm:text-left">

@@ -3,43 +3,62 @@ import { persist } from 'zustand/middleware';
 
 export type ThemeType = 'default' | 'palm-leaf' | 'ancient-book' | 'temple-stone' | 'wooden-box' | 'night-manuscript';
 
+interface User {
+  name: string;
+  email: string;
+  avatar: string;
+}
+
 interface AppState {
-  theme: ThemeType;
-  setTheme: (theme: ThemeType) => void;
+  theme: string;
+  setTheme: (theme: string) => void;
   bookmarks: number[];
-  toggleBookmark: (kuralId: number) => void;
+  toggleBookmark: (kuralNumber: number) => void;
   audioPlayer: {
     isOpen: boolean;
     currentKural: number | null;
   };
   openAudioPlayer: (kuralId: number) => void;
   closeAudioPlayer: () => void;
+  // Auth state
+  user: User | null;
+  login: () => void;
+  logout: () => void;
 }
 
 export const useAppStore = create<AppState>()(
   persist(
     (set) => ({
-      theme: 'default',
+      theme: "default",
       setTheme: (theme) => set({ theme }),
       bookmarks: [],
-      toggleBookmark: (kuralId) =>
+      toggleBookmark: (kuralNumber) =>
         set((state) => ({
-          bookmarks: state.bookmarks.includes(kuralId)
-            ? state.bookmarks.filter((id) => id !== kuralId)
-            : [...state.bookmarks, kuralId],
+          bookmarks: state.bookmarks.includes(kuralNumber)
+            ? state.bookmarks.filter((id) => id !== kuralNumber)
+            : [...state.bookmarks, kuralNumber],
         })),
       audioPlayer: {
         isOpen: false,
         currentKural: null,
       },
       openAudioPlayer: (kuralId) =>
-        set((state) => ({
-          audioPlayer: { ...state.audioPlayer, isOpen: true, currentKural: kuralId },
-        })),
+        set({
+          audioPlayer: { isOpen: true, currentKural: kuralId },
+        }),
       closeAudioPlayer: () =>
         set((state) => ({
-          audioPlayer: { ...state.audioPlayer, isOpen: false, currentKural: null },
+          audioPlayer: { ...state.audioPlayer, isOpen: false },
         })),
+      user: null,
+      login: () => set({ 
+        user: { 
+          name: "Thiruvalluvar Fan", 
+          email: "scholar@kuralbox.com", 
+          avatar: "https://api.dicebear.com/7.x/notionists/svg?seed=Valluvar" 
+        } 
+      }),
+      logout: () => set({ user: null }),
     }),
     {
       name: 'kural-box-storage',
